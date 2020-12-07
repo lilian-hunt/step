@@ -1,18 +1,75 @@
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Lilian Hunt</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body>
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+      <h1>Lilian Hunt</h1>
+        <header class="masthead mb-auto">
+        <div class="inner">
+          <nav class="nav nav-masthead justify-content-center navbar-light" style="background-color: #e3f2fd;">
+            <a class="nav-link active" href="index.html">Home</a>
+            <a class="nav-link" href="projects.html">Projects</a>
+            <a class="nav-link" href="landing.html">Landing</a>
+          </nav>
+        </div>
+        </header>
+        <br>
+        <h2> About Me</h2>
+        <p>I am currently studying a Bachelor of Advanced Computing and Commerce at the University of Sydney. This summer
+            I am interning at Google.
+        </p>
+        
+        <h2>External profiles</h2>
+        <ul>
+            <li><a href="https://www.linkedin.com/in/lilian-hunt-896276165/">LinkedIn Profile</a></li>
+            <li><a href="https://github.com/lilian-hunt">GitHub Profile</a> </li> 
+        </ul>
+        
+    <!-- <a href="index_copy.html">New page</a> -->
+    <h2>Picture Gallery</h2>
+
+
+    <div class="gallery" id="gallery">
+
+        <div class="mb-3 pics animation all 2">
+            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Card image cap">
+        </div>
+        <div class="mb-3 pics animation all 1">
+            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg" alt="Card image cap">
+        </div>
+        
+        <div class="mb-3 pics animation all 1">
+            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Vertical/mountain2.jpg" alt="Card image cap">
+        </div>
+        
+        <div class="mb-3 pics animation all 2">
+            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg" alt="Card image cap">
+        </div>
+        
+        <div class="mb-3 pics animation all 2">
+            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg" alt="Card image cap">
+        </div>
+        
+        <div class="mb-3 pics animation all 1">
+            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Vertical/mountain3.jpg" alt="Card image cap">
+        </div>
+        
     </div>
+    <br>
+    <h2>Fun Fact</h2>
+      <button class="btn btn-outline-secondary" onclick="revealFact()">Reveal</button>
+      <div id="fact-container"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
