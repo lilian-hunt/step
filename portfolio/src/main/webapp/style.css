@@ -4,8 +4,8 @@
     width: 650px;
 }
 
-#fact-container {
-    margin-top: 20px;
+#fact-container, #json-msg-container{
+    margin-top: 10px;
 }
 
 img {
