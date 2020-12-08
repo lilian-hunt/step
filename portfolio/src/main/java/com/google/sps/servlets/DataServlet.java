@@ -24,27 +24,41 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
-public class DataServlet extends HttpServlet {
-    private ArrayList<String> messages;
-    @Override
-    public void init(){
-        messages = new ArrayList<String>();
-        messages.add("Message 1");
-        messages.add("Message 2");
-        messages.add("Message 3");
-    }
+public class DataServlet extends HttpServlet {    
+    private ArrayList<String> comments;
     
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // response.setContentType("text/html;");
-        // response.getWriter().println("<h1>Hello Lilian!</h1>");
-        
-        response.setContentType("application/json");
-        response.getWriter().println(toJSONString(messages));
+    public void init() {
+        comments = new ArrayList<String>();
     }
 
-    private String toJSONString(ArrayList<String> messages){
-        String json = "{ \"messages\" :" + "\""+ messages.toString() + "\""+ "}";
-        return json;
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {        
+        response.setContentType("application/json");
+        response.getWriter().println(toJSONString(comments));
     }
+
+    private String toJSONString(ArrayList<String> array) {
+            String json = "{ \"comments\" :" + "\""+ array.toString() + "\""+ "}";
+            return json;
+        }
+    
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Get the input from the form.
+        String feedback = request.getParameter("text-input");
+
+        // Only add feedback if valid input
+        if (feedback == "") {
+            System.err.println("No input");
+            return;
+        }
+
+        else {
+            comments.add(feedback);
+        }
+
+        // Redirect back to the HTML page.
+        response.sendRedirect("/index.html");
+  }
 }

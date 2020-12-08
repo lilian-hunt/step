@@ -53,16 +53,16 @@ function getMsg() {
 /**
  * Fetches stats from the servers and adds them to the DOM.
  */
-function getJSONMsgs() {
+function getFeedback() {
   fetch('/data').then(response => response.json()).then((msgs) => {
     // msgs is an object, not a string, so we have to
     // reference its fields to create HTML content
-    var messages = msgs.messages;
+    var messages = msgs.comments;
     messages = messages.substring(1,messages.length-1);
     messages = messages.split(", ");
     console.log(messages);
     
-    const msgListElement = document.getElementById('json-msg-container');
+    const msgListElement = document.getElementById('comment-container');
     msgListElement.innerHTML = '';
     
     for (i = 0; i < messages.length; i++) {

@@ -9,7 +9,7 @@
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
+    <div id="content" style="padding-bottom:50px; padding-top:20px">
       <h1>Lilian Hunt</h1>
         <header class="masthead mb-auto">
         <div class="inner">
@@ -69,10 +69,19 @@
     <button class="btn btn-outline-secondary" onclick="getMsg()">Fetch!</button>
     <div id="msg-container"></div>
 
-    <h2>JSON Messages</h2>
-    <button class="btn btn-outline-secondary" onclick="getJSONMsgs()">Get!</button>
-    <div id="json-msg-container"></div>
+    <h2>Add a comment</h2>
+    <form action="/data" method="POST">
+        <p>Enter your feedback here:</p>
+        <textarea name="text-input" required></textarea>
+        <br/><br/>
+        <input class="btn btn-outline-secondary"  type="submit" /> 
+    </form>
+
+    <h2>See all comments</h2>
+    <button class="btn btn-outline-secondary" onclick="getFeedback()">Get!</button>
+    <div id="comment-container"></div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
