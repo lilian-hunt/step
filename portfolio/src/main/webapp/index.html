@@ -16,7 +16,6 @@
           <nav class="nav nav-masthead justify-content-center navbar-light" style="background-color: #e3f2fd;">
             <a class="nav-link active" href="index.html">Home</a>
             <a class="nav-link" href="projects.html">Projects</a>
-            <a class="nav-link" href="landing.html">Landing</a>
           </nav>
         </div>
         </header>
@@ -64,22 +63,18 @@
     <h2>Fun Fact</h2>
       <button class="btn btn-outline-secondary" onclick="revealFact()">Reveal</button>
       <div id="fact-container"></div>
-    
-    <h2>Message</h2>
-    <button class="btn btn-outline-secondary" onclick="getMsg()">Fetch!</button>
-    <div id="msg-container"></div>
-
+    <br>
     <h2>Add a comment</h2>
     <form action="/data" method="POST">
         <p>Enter your feedback here:</p>
         <textarea name="text-input" required></textarea>
-        <br/><br/>
+        <br>
         <input class="btn btn-outline-secondary"  type="submit" /> 
     </form>
-
+    <br>
     <h2>See all comments</h2>
     <button class="btn btn-outline-secondary" onclick="getFeedback()">Get!</button>
-    <div id="comment-container"></div>
+    <div class="content-container" id="comment-container"></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

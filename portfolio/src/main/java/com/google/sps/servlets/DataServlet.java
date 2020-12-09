@@ -16,29 +16,45 @@ package com.google.sps.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+
+
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {    
-    private ArrayList<String> comments;
-    
     @Override
-    public void init() {
-        comments = new ArrayList<String>();
-    }
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException { 
+        Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {        
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery results = datastore.prepare(query);
+
+        List<String> comments = new ArrayList<String>();
+        for (Entity entity : results.asIterable()) {
+            String comment = (String) entity.getProperty("comment");
+            comments.add(comment);
+        }
+
         response.setContentType("application/json");
         response.getWriter().println(toJSONString(comments));
     }
 
-    private String toJSONString(ArrayList<String> array) {
+    /*
+    * Helper function to store comments in JSON format
+    */
+    private String toJSONString(List<String> array) {
             String json = "{ \"comments\" :" + "\""+ array.toString() + "\""+ "}";
             return json;
         }
@@ -47,7 +63,8 @@ public class DataServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Get the input from the form.
         String feedback = request.getParameter("text-input");
-
+        long timestamp = System.currentTimeMillis();
+        
         // Only add feedback if valid input
         if (feedback == "") {
             System.err.println("No input");
@@ -55,7 +72,13 @@ public class DataServlet extends HttpServlet {
         }
 
         else {
-            comments.add(feedback);
+            Entity commentEntity = new Entity("Comment");
+            
+            commentEntity.setProperty("comment", feedback);
+            commentEntity.setProperty("timestamp", timestamp);
+            
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            datastore.put(commentEntity);
         }
 
         // Redirect back to the HTML page.
