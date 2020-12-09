@@ -16,18 +16,18 @@
  * Adds a  random fact to the page.
  */
 function revealFact() {
+    // Helper function to get a random fact.
     function getFact(){
-        const facts = ['I went viral on TikTok for ski dance videos. See <a href="https://www.tiktok.com/en/">here.</a>', 
-        'I love baking.', 'My favourite chocolate is Caramilk.', 'I play water polo.', 
-        "I went to Stanford University on exchange.", 
-        "I have worked at Deloitte.", "I have worked at Macqaurie bank."];
+        const facts = ['I went viral on TikTok for ski dance videos.', 
+            'I love baking.', 'My favourite chocolate is Caramilk.', 'I play water polo.', 
+            "I went to Stanford University on exchange.", 
+            "I have worked at Deloitte.", "I have worked at Macqaurie bank."];
 
-        // Pick a random greeting.
+        // Pick a random one.
         const fact = facts[Math.floor(Math.random() * facts.length)];
         return fact;
     }
   
-    // Add it to the page.
   const factContainer = document.getElementById('fact-container');
   
   // Show or hide fact.  
@@ -41,14 +41,6 @@ function revealFact() {
 
 }
 
-/**
- * Fetches a message from the server and adds it to the DOM. 
- */
-function getMsg() {
-    fetch('/data').then(response => response.text()).then((msg) => {
-        document.getElementById('msg-container').innerHTML = msg;
-    });
-}
 
 /**
  * Fetches stats from the servers and adds them to the DOM.
