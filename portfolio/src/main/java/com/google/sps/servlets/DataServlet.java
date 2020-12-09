@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +35,8 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {    
+    private final static Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Get all the comments from the database  
@@ -49,16 +52,19 @@ public class DataServlet extends HttpServlet {
         }
 
         response.setContentType("application/json");
-        response.getWriter().println(toJSONString(comments));
+        response.getWriter().println(toJSONString(comments, "comments"));
     }
 
     /*
-    * Helper function to store comments in JSON format
+    * Helper function to store an array in JSON format
     */
-    private String toJSONString(List<String> array) {
-            String json = "{ \"comments\" :" + "\""+ array.toString() + "\""+ "}";
+    private String toJSONString(List<String> array, String arrayName) {
+        if (array != null){
+            String json = "{ \"" + arrayName + "\" :" + "\""+ array.toString() + "\""+ "}";
             return json;
-        }
+            }
+        return null;
+    }
     
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -68,7 +74,7 @@ public class DataServlet extends HttpServlet {
         
         // Only add feedback if valid input
         if (feedback == "") {
-            System.err.println("No input");
+            LOGGER.warning("No input");
             return;
         }
 
@@ -84,5 +90,5 @@ public class DataServlet extends HttpServlet {
 
         // Redirect back to the HTML page.
         response.sendRedirect("/index.html");
-  }
+    }
 }

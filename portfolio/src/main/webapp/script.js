@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * Adds a  random fact to the page.
+ * Adds a random fact to the page.
  */
 function revealFact() {
     // Helper function to get a random fact.
