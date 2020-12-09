@@ -43,23 +43,23 @@ function revealFact() {
 
 
 /**
- * Fetches stats from the servers and adds them to the DOM.
+ * Fetches comments from the servers and adds them to the DOM.
  */
 function getFeedback() {
-  fetch('/data').then(response => response.json()).then((msgs) => {
-    // msgs is an object, not a string, so we have to
+  fetch('/data').then(response => response.json()).then((comments) => {
+    // comments is an object, so we have to
     // reference its fields to create HTML content
-    var messages = msgs.comments;
-    messages = messages.substring(1,messages.length-1);
-    messages = messages.split(", ");
-    console.log(messages);
+    var comments = comments.comments;
+    comments = comments.substring(1,comments.length-1);
+    comments = comments.split(", ");
+    console.log(comments);
     
-    const msgListElement = document.getElementById('comment-container');
-    msgListElement.innerHTML = '';
+    const commentListElement = document.getElementById('comment-container');
+    commentListElement.innerHTML = '';
     
-    for (i = 0; i < messages.length; i++) {
-        msgListElement.appendChild(
-        createListElement(messages[i]));
+    for (i = 0; i < comments.length; i++) {
+        commentListElement.appendChild(
+        createListElement(comments[i]));
     }
   });
 }
