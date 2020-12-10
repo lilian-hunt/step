@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,75 +9,63 @@
     </head>
     <body>
     <div id="content" style="padding-bottom:50px; padding-top:20px">
-    <h1>Lilian Hunt</h1>
-    <header class="masthead mb-auto">
-    <div class="inner">
-        <nav class="nav nav-masthead justify-content-center navbar-light" style="background-color: #e3f2fd;">
-        <a class="nav-link active" href="index.html">Home</a>
-        <a class="nav-link" href="projects.html">Projects</a>
-        </nav>
+      <h1>Lilian Hunt</h1>
+      <header class="masthead mb-auto">
+      <div class="inner">
+          <nav class="nav nav-masthead justify-content-center navbar-light" style="background-color: #e3f2fd;">
+          <a class="nav-link active" href="index.html">Home</a>
+          <a class="nav-link" href="projects.html">Projects</a>
+          </nav>
+      </div>
+      </header  
+      <br>
+      <h2> About Me</h2>
+      <p>I am currently studying a Bachelor of Advanced Computing and Commerce at the University of Sydney. This summer
+          I am interning at Google.
+      </p>   
+      <h2>External profiles</h2>
+      <ul>
+          <li><a href="https://www.linkedin.com/in/lilian-hunt-896276165/">LinkedIn Profile</a></li>
+          <li><a href="https://github.com/lilian-hunt">GitHub Profile</a> </li> 
+      </ul>       
+      <h2>Picture Gallery</h2>
+      <div class="gallery" id="gallery">
+          <div class="mb-3 pics animation all 2">
+              <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Nature image">
+          </div>
+          <div class="mb-3 pics animation all 1">
+              <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg" alt="Mountain view">
+          </div>    
+          <div class="mb-3 pics animation all 1">
+              <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Vertical/mountain2.jpg" alt="Mountain view">
+          </div>
+          <div class="mb-3 pics animation all 2">
+              <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg" alt="Nature image">
+          </div>
+          <div class="mb-3 pics animation all 2">
+              <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg" alt="Nature image">
+          </div>
+          <div class="mb-3 pics animation all 1">
+              <img class="img-fluid" src="/images/IMG_5241.jpg" alt="Me at the Taj Mahal">
+          </div>      
+      </div>
+      <br>   
+      <h2>Fun Fact</h2>
+        <button class="btn btn-outline-secondary" onclick="revealFact()">Reveal</button>
+        <div id="fact-container"></div>
+      <br> 
+      <h2>Add a comment</h2>
+      <form action="/data" method="POST">
+          <p>Enter your feedback here:</p>
+          <textarea name="text-input" required></textarea>
+          <br>
+          <input class="btn btn-outline-secondary"  type="submit" /> 
+      </form>
+      <br>
+      <h2>See all comments</h2>
+      <button class="btn btn-outline-secondary" onclick="getFeedback()">Get!</button>
+      <div class="content-container" id="comment-container"></div>
     </div>
-    </header>
-    
-    <br>
-    <h2> About Me</h2>
-    <p>I am currently studying a Bachelor of Advanced Computing and Commerce at the University of Sydney. This summer
-        I am interning at Google.
-    </p>
-    
-    <h2>External profiles</h2>
-    <ul>
-        <li><a href="https://www.linkedin.com/in/lilian-hunt-896276165/">LinkedIn Profile</a></li>
-        <li><a href="https://github.com/lilian-hunt">GitHub Profile</a> </li> 
-    </ul>
-        
-    <h2>Picture Gallery</h2>
-    <div class="gallery" id="gallery">
-
-        <div class="mb-3 pics animation all 2">
-            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg" alt="Nature image">
-        </div>
-        <div class="mb-3 pics animation all 1">
-            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg" alt="Mountain view">
-        </div>
-        
-        <div class="mb-3 pics animation all 1">
-            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Vertical/mountain2.jpg" alt="Mountain view">
-        </div>
-        
-        <div class="mb-3 pics animation all 2">
-            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg" alt="Nature image">
-        </div>
-        
-        <div class="mb-3 pics animation all 2">
-            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg" alt="Nature image">
-        </div>
-        
-        <div class="mb-3 pics animation all 1">
-            <img class="img-fluid" src="/images/IMG_5241.jpg" alt="Me at the Taj Mahal">
-        </div>      
-    </div>
-    <br>
-    
-    <h2>Fun Fact</h2>
-      <button class="btn btn-outline-secondary" onclick="revealFact()">Reveal</button>
-      <div id="fact-container"></div>
-    <br>
-    
-    <h2>Add a comment</h2>
-    <form action="/data" method="POST">
-        <p>Enter your feedback here:</p>
-        <textarea name="text-input" required></textarea>
-        <br>
-        <input class="btn btn-outline-secondary"  type="submit" /> 
-    </form>
-    <br>
-    
-    <h2>See all comments</h2>
-    <button class="btn btn-outline-secondary" onclick="getFeedback()">Get!</button>
-    <div class="content-container" id="comment-container"></div>
-    </div>
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
