@@ -23,7 +23,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
@@ -44,10 +44,11 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    List<String> comments = new ArrayList<String>();
+    HashMap<String,String> comments = new HashMap<String,String>();
     for (Entity entity : results.asIterable()) {
       String comment = (String) entity.getProperty("comment");
-      comments.add(comment);
+      String id = entity.getKey().toString() ;
+      comments.put(id,comment);
     }
 
     response.setContentType("application/json");
@@ -57,12 +58,12 @@ public class DataServlet extends HttpServlet {
   /*
    * Helper function to store an array in JSON format
    */
-  private String toJSONString(List<String> array, String arrayName) {
+  private String toJSONString(Map<String,String> map, String name) {
     Gson gson = new Gson();
-    if (array != null) {
-      String json = "{ \"" + arrayName + "\" :"
-          +  gson.toJson(array).toString() + "}";
-          System.out.println(json);
+    if (map != null) {
+      String json = "{ \"" + name + "\" :"
+          +  gson.toJson(map).toString() + "}";
+          // System.out.println(json);
       return json;
     }
     return null;
@@ -74,6 +75,7 @@ public class DataServlet extends HttpServlet {
     // Get the input from the form.
     String feedback = request.getParameter("text-input");
     long timestamp = System.currentTimeMillis();
+    String remoteAddr = request.getRemoteAddr();
 
     // Only add feedback if valid input
     if (feedback == "") {
@@ -86,6 +88,7 @@ public class DataServlet extends HttpServlet {
 
       commentEntity.setProperty("comment", feedback);
       commentEntity.setProperty("timestamp", timestamp);
+      commentEntity.setProperty("removeAddr", remoteAddr);
 
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       datastore.put(commentEntity);

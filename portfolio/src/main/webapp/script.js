@@ -56,30 +56,51 @@ function getFeedback() {
     var comments = comments.comments;
 
     console.log(comments);
-
+  
+    // comments = new Map(Object.entries(comments));
+    // console.log(typeof comments);
+    // console.log(comments.valuesOf());
+    // console.log(comments.keys());
     const commentListElement = document.getElementById('comment-container');
     commentListElement.innerHTML = '';
-
-    for (i = 0; i < comments.length; i++) {
-      commentListElement.appendChild(createListElement(comments[i]));
+    for (const [key, value] of Object.entries(comments)) {
+      commentListElement.appendChild(createListElement(key, value));
     }
+    // for (i = 0; i < comments.length; i++) {
+    //   commentListElement.appendChild(createListElement(comments[i]));
+    // }
   });
 }
 
 /** Creates an <li> element containing text. */
-function createListElement(text) {
+function createListElement(key, text) {
   const liElement = document.createElement('li');
+  liElement.id = key;
   liElement.innerText = text + "\t";
-  const btn = document.createElement("button");
-  btn.className = "btn btn-outline-secondary";
 
-  btn.innerHTML = "X";
+  // Create an input element to delete item 
+  var form = document.createElement("form"); 
+  form.setAttribute("method", "post"); 
+  form.setAttribute("action", "/delete-data"); 
+  
+  var button = document.createElement("input"); 
+  button.setAttribute("class", "btn btn-outline-secondary"); 
+  button.setAttribute("type", "submit"); 
+  button.setAttribute("id", key); 
+  button.setAttribute("value", "XX");
+
+  form.appendChild(button);  
+  liElement.appendChild(form);
+  // const btn = document.createElement("button");
+  // btn.className = "btn btn-outline-secondary";
+
+  // btn.innerHTML = "X";
 
   // To do - call /delete-data option 
   // change this function only deletes from the page 
-  btn.addEventListener("click", function(e) {
-    e.target.parentNode.remove();
-  });
-  liElement.appendChild(btn);
+  // btn.addEventListener("click", function(e) {
+  //   e.target.parentNode.remove();
+  // });
+  // liElement.appendChild(btn);
   return liElement;
 }

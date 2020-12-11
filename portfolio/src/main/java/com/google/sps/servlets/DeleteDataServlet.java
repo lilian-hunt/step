@@ -19,7 +19,10 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.*;
@@ -42,29 +45,33 @@ public class DeleteDataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the info about which post to delete
-    // String feedback = request.getParameter("text-input");
-    // long timestamp = System.currentTimeMillis();
+    String feedback = request.getParameter("text-input");
+    long timestamp = System.currentTimeMillis();
+    String remoteAddr = request.getRemoteAddr();
+    Filter identifyUser = new FilterPredicate("remoteAddr", FilterOperator.EQUAL, remoteAddr);
+    // Filter based on key
+    Filter identifyComment = new FilterPredicate("key", FilterOperator.EQUAL, key);
+    Query query = new Query("Comment").setFilter(identifyUser).addSort("timestamp", SortDirection.DESCENDING);
 
-    // Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+    System.out.println("**" + results);
+    // Only add feedback if valid input
+    if (results == null) {
+      LOGGER.warning("User does not own this comment");
+      return;
+    }
 
-    // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    // PreparedQuery results = datastore.prepare(query);
-    
-    // // Only add feedback if valid input
-    // if (feedback == "") {
-    //   LOGGER.warning("Invalid comment to delete");
-    //   return;
-    // }
+    else {
+      for (Entity commentEntity: results.asIterable()){
+        // datastore.delete(commentEntity);  
+        String comment = (String) commentEntity.getProperty("comment"); 
+        System.out.println(comment); 
+      }
+      System.out.println("deleted comment");
+    }
 
-    // else {
-      
-
-    //   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    //   datastore.delete(commentEntity);
-
-    // }
-
-    // // Redirect back to the HTML page.
-    // response.sendRedirect("/index.html");
+    // Redirect back to the HTML page.
+    response.sendRedirect("/index.html");
   }
 }
