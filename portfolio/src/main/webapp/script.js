@@ -45,12 +45,8 @@ function revealFact() {
  * Fetches comments from the servers and adds them to the DOM.
  */
 function getFeedback() {
-  //   fetch('/data').then(response => console.log(response));
-
-
   fetch('/data').then(response => response.json()).then((comments) => {
-    // comments is an object, so we have to
-    // reference its fields to create HTML content
+    // comments is an object reference its fields to create HTML content
     var comments = comments.comments;
 
     console.log(comments);
@@ -68,16 +64,14 @@ function getFeedback() {
 function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text + '\t';
+  
   const btn = document.createElement('button');
   btn.className = 'btn btn-outline-secondary';
-
   btn.innerHTML = 'X';
-
-  // To do - call /delete-data option
-  // change this function only deletes from the page
   btn.addEventListener('click', function(e) {
     e.target.parentNode.remove();
   });
+  
   liElement.appendChild(btn);
   return liElement;
 }
