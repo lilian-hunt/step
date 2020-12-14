@@ -46,12 +46,16 @@ public class DeleteDataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the info about which post to delete
     String feedback = request.getParameter("text-input");
-    long timestamp = System.currentTimeMillis();
+    String key = request.getParameter("id");
+    key = key.replaceAll("[^\\d.]", "");
+    System.out.println(key);
+    
     String remoteAddr = request.getRemoteAddr();
     Filter identifyUser = new FilterPredicate("remoteAddr", FilterOperator.EQUAL, remoteAddr);
     // Filter based on key
     Filter identifyComment = new FilterPredicate("key", FilterOperator.EQUAL, key);
-    Query query = new Query("Comment").setFilter(identifyUser).addSort("timestamp", SortDirection.DESCENDING);
+    // Query query = new Query("Comment").setFilter(identifyUser).addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -65,8 +69,12 @@ public class DeleteDataServlet extends HttpServlet {
     else {
       for (Entity commentEntity: results.asIterable()){
         // datastore.delete(commentEntity);  
+
+        // remote address is returning null -- need to fix then can deletegit
         String comment = (String) commentEntity.getProperty("comment"); 
-        System.out.println(comment); 
+        System.out.println("Key: " + commentEntity.getKey());
+        System.out.println("Remote addr: " + commentEntity.getProperty("remoteAddr"));
+        System.out.println("COMMENT: " + comment); 
       }
       System.out.println("deleted comment");
     }

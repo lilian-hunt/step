@@ -82,25 +82,23 @@ function createListElement(key, text) {
   var form = document.createElement("form"); 
   form.setAttribute("method", "post"); 
   form.setAttribute("action", "/delete-data"); 
+
+  // Create hidden element to store id of button 
+  var id = document.createElement("input");
+  id.setAttribute("type","hidden");
+  id.setAttribute("name", "id");
+  id.setAttribute("value", key);
   
   var button = document.createElement("input"); 
   button.setAttribute("class", "btn btn-outline-secondary"); 
   button.setAttribute("type", "submit"); 
-  button.setAttribute("id", key); 
-  button.setAttribute("value", "XX");
+  button.setAttribute("name", key); 
+  button.setAttribute("value", "X");
 
+  // Create the list element
+  form.appendChild(id);
   form.appendChild(button);  
   liElement.appendChild(form);
-  // const btn = document.createElement("button");
-  // btn.className = "btn btn-outline-secondary";
 
-  // btn.innerHTML = "X";
-
-  // To do - call /delete-data option 
-  // change this function only deletes from the page 
-  // btn.addEventListener("click", function(e) {
-  //   e.target.parentNode.remove();
-  // });
-  // liElement.appendChild(btn);
   return liElement;
 }
