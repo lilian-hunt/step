@@ -35,9 +35,7 @@ function revealFact() {
   // Show or hide fact.
   if (factContainer.innerHTML == '') {
     factContainer.innerHTML = getFact();
-  }
-
-  else {
+  } else {
     factContainer.innerHTML = '';
   }
 }
@@ -47,7 +45,7 @@ function revealFact() {
  * Fetches comments from the servers and adds them to the DOM.
  */
 function getFeedback() {
-//   fetch('/data').then(response => console.log(response));
+  //   fetch('/data').then(response => console.log(response));
 
 
   fetch('/data').then(response => response.json()).then((comments) => {
@@ -69,15 +67,15 @@ function getFeedback() {
 /** Creates an <li> element containing text. */
 function createListElement(text) {
   const liElement = document.createElement('li');
-  liElement.innerText = text + "\t";
-  const btn = document.createElement("button");
-  btn.className = "btn btn-outline-secondary";
+  liElement.innerText = text + '\t';
+  const btn = document.createElement('button');
+  btn.className = 'btn btn-outline-secondary';
 
-  btn.innerHTML = "X";
+  btn.innerHTML = 'X';
 
-  // To do - call /delete-data option 
-  // change this function only deletes from the page 
-  btn.addEventListener("click", function(e) {
+  // To do - call /delete-data option
+  // change this function only deletes from the page
+  btn.addEventListener('click', function(e) {
     e.target.parentNode.remove();
   });
   liElement.appendChild(btn);

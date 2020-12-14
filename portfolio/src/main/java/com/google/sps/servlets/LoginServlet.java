@@ -19,8 +19,14 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import java.io.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,38 +37,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/delete-data")
-public class DeleteDataServlet extends HttpServlet {
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
   private final static Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
 
-  // To do: determine if this is the user's comment
-  // Allow them to delete their own comments
-  // Need something to identify the comment
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("text/html");
+
+    UserService userService = UserServiceFactory.getUserService();
+    if (userService.isUserLoggedIn()) {
+      String userEmail = userService.getCurrentUser().getEmail();
+      String urlToRedirectToAfterUserLogsOut = "/";
+      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+
+      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
+      response.getWriter().println("<p>You are logged in!</p>");
+      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+    } else {
+      String urlToRedirectToAfterUserLogsIn = "/";
+      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
+
+      response.getWriter().println("<p>Hello stranger.</p>");
+      response.getWriter().println("<p>You are not logged in!</p>");
+      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+    }
+  }
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the info about which post to delete
-    // String feedback = request.getParameter("text-input");
-    // long timestamp = System.currentTimeMillis();
 
-    // Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-
-    // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    // PreparedQuery results = datastore.prepare(query);
-
-    // // Only add feedback if valid input
-    // if (feedback == "") {
-    //   LOGGER.warning("Invalid comment to delete");
-    //   return;
-    // }
-
-    // else {
-
-    //   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    //   datastore.delete(commentEntity);
-
-    // }
-
-    // // Redirect back to the HTML page.
-    // response.sendRedirect("/index.html");
+    // Redirect back to the HTML page.
+    response.sendRedirect("/index.html");
   }
 }

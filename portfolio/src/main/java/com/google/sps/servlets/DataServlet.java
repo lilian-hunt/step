@@ -22,7 +22,6 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -60,13 +59,11 @@ public class DataServlet extends HttpServlet {
   private String toJSONString(List<String> array, String arrayName) {
     Gson gson = new Gson();
     if (array != null) {
-      String json = "{ \"" + arrayName + "\" :"
-          +  gson.toJson(array).toString() + "}";
-          System.out.println(json);
+      String json = "{ \"" + arrayName + "\" :" + gson.toJson(array).toString() + "}";
+      System.out.println(json);
       return json;
     }
     return null;
-
   }
 
   @Override
