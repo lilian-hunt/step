@@ -61,7 +61,6 @@ function getFeedback() {
 /** Creates an <li> element containing text. */
 function createListElement(key, text) {
   const liElement = document.createElement('li');
-<<<<<<< HEAD
   liElement.id = key;
   liElement.innerText = text + '\t';
 
@@ -87,18 +86,6 @@ function createListElement(key, text) {
   form.appendChild(button);
   liElement.appendChild(form);
 
-=======
-  liElement.innerText = text + '\t';
-  
-  const btn = document.createElement('button');
-  btn.className = 'btn btn-outline-secondary';
-  btn.innerHTML = 'X';
-  btn.addEventListener('click', function(e) {
-    e.target.parentNode.remove();
-  });
-  
-  liElement.appendChild(btn);
->>>>>>> b40569c7d8446f976143a15aa7c60bb4ce131e9c
   return liElement;
 }
 
