@@ -35,9 +35,7 @@ function revealFact() {
   // Show or hide fact.
   if (factContainer.innerHTML == '') {
     factContainer.innerHTML = getFact();
-  }
-
-  else {
+  } else {
     factContainer.innerHTML = '';
   }
 }
@@ -47,28 +45,14 @@ function revealFact() {
  * Fetches comments from the servers and adds them to the DOM.
  */
 function getFeedback() {
-  //   fetch('/data').then(response => console.log(response));
-
-
   fetch('/data').then(response => response.json()).then((comments) => {
-    // comments is an object, so we have to
-    // reference its fields to create HTML content
+    // comments is an object, so we have to reference its fields to create HTML content
     var comments = comments.comments;
-
-    console.log(comments);
-
-    // comments = new Map(Object.entries(comments));
-    // console.log(typeof comments);
-    // console.log(comments.valuesOf());
-    // console.log(comments.keys());
     const commentListElement = document.getElementById('comment-container');
     commentListElement.innerHTML = '';
     for (const [key, value] of Object.entries(comments)) {
       commentListElement.appendChild(createListElement(key, value));
     }
-    // for (i = 0; i < comments.length; i++) {
-    //   commentListElement.appendChild(createListElement(comments[i]));
-    // }
   });
 }
 
