@@ -39,9 +39,9 @@ public class DeleteDataServlet extends HttpServlet {
     // Get the email of the user currently logged in.
     UserService userService = UserServiceFactory.getUserService();
     String currentUserEmail = userService.getCurrentUser().getEmail();
-    
+
     // Users can only delete their own comments.
-    if (!commentUserEmail.equals(currentUserEmail)){
+    if (!commentUserEmail.equals(currentUserEmail)) {
       System.out.println("Cannot delete other user's comments!");
       response.sendRedirect("/index.html");
     } else {
