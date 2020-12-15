@@ -76,9 +76,7 @@ public class DataServlet extends HttpServlet {
     if (feedback == "") {
       LOGGER.warning("No input");
       return;
-    }
-
-    else {
+    } else {
       Entity commentEntity = new Entity("Comment");
 
       commentEntity.setProperty("comment", feedback);
