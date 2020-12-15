@@ -39,9 +39,9 @@ import javax.servlet.http.HttpServletResponse;
 public class DeleteDataServlet extends HttpServlet {
   private final static Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
 
-  // To do: determine if this is the user's comment
-  // Allow them to delete their own comments
-  // Need something to identify the comment
+
+  // TO DO: filter based on email and only allow them to delete their own
+  /** Delete comment servlet, allow a user to delete their own comments. */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the info about which post to delete
@@ -65,9 +65,7 @@ public class DeleteDataServlet extends HttpServlet {
     if (results == null) {
       LOGGER.warning("User does not own this comment");
       return;
-    }
-
-    else {
+    } else {
       for (Entity commentEntity : results.asIterable()) {
         // datastore.delete(commentEntity);
 

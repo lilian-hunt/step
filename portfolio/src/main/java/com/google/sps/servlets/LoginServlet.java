@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Login servlet, returns a page which indicates whether a user is logged in or not. */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
   @Override
@@ -59,13 +59,5 @@ public class LoginServlet extends HttpServlet {
       response.getWriter().println("<p>You are not logged in!</p>");
       response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
     }
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the info about which post to delete
-
-    // Redirect back to the HTML page.
-    response.sendRedirect("/index.html");
   }
 }
