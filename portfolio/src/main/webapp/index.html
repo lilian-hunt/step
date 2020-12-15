@@ -15,6 +15,9 @@
           <nav class="nav nav-masthead justify-content-center navbar-light" style="background-color: #e3f2fd;">
           <a class="nav-link active" href="index.html">Home</a>
           <a class="nav-link" href="projects.html">Projects</a>
+          <form action="/login" method="GET">
+          <input class="btn btn-outline-secondary"  type="submit" value="Login" /> 
+          </form>
           </nav>
       </div>
       </header  
@@ -54,13 +57,14 @@
         <button class="btn btn-outline-secondary" onclick="revealFact()">Reveal</button>
         <div id="fact-container"></div>
       <br> 
-      <h2>Add a comment</h2>
-      <form action="/data" method="POST">
+      
+      <h2 id="comment-header">Add a comment</h2>
+      <!-- <form action="/data" method="POST">
           <p>Enter your feedback here:</p>
           <textarea name="text-input" required></textarea>
           <br>
           <input class="btn btn-outline-secondary"  type="submit" /> 
-      </form>
+      </form> -->
       <br>
       <h2>See all comments</h2>
       <button class="btn btn-outline-secondary" onclick="getFeedback()">Get!</button>

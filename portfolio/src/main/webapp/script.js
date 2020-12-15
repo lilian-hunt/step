@@ -102,3 +102,47 @@ function createListElement(key, text) {
 
   return liElement;
 }
+
+// Check if the user is logged in or not, only display the comment function 
+// if they are logged in
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       console.log(xhttp.responseText);
+       console.log(xhttp.responseText.includes("<p>You are logged in!</p>"));
+       commentTitle = document.getElementById("comment-header");
+       if (xhttp.responseText.includes("<p>You are logged in!</p>")){
+          var form = document.createElement("form"); 
+          form.setAttribute("method", "POST"); 
+          form.setAttribute("action", "/data");  
+
+          var text = document.createElement("p");
+          text.innerText = "Enter your feedback here:";
+
+          var textArea = document.createElement("textarea");
+          textArea.name = "text-input";
+          textArea.required = "";
+
+          var br = document.createElement("br");
+
+          var button = document.createElement("input"); 
+          button.setAttribute("class", "btn btn-outline-secondary"); 
+          button.setAttribute("type", "submit");
+
+          form.appendChild(text);
+          form.appendChild(textArea);
+          form.appendChild(br);
+          form.appendChild(button);
+          commentTitle.parentNode.insertBefore(form, commentTitle.nextSibling);
+          console.log("Comments");
+       } else {
+          var text = document.createElement("p");
+          text.innerHTML = "Please login to comment.";
+          commentTitle.append(text);
+          commentTitle.parentNode.insertBefore(text, commentTitle.nextSibling);
+          console.log("No comments");
+       }
+    }
+};
+xhttp.open("GET", "/login", true);
+xhttp.send();
