@@ -20,6 +20,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
@@ -49,7 +50,7 @@ public class DataServlet extends HttpServlet {
 
     HashMap<String, ArrayList<String>> comments = new HashMap<String, ArrayList<String>>();
     for (Entity entity : results.asIterable()) {
-      String id = entity.getKey().toString();
+      String id = KeyFactory.keyToString(entity.getKey());
       ArrayList<String> commentEmail = new ArrayList<String>();
       commentEmail.add((String) entity.getProperty("comment"));
       commentEmail.add((String) entity.getProperty("userEmail"));
@@ -80,7 +81,7 @@ public class DataServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     String userEmail = userService.getCurrentUser().getEmail();
 
-    // Only add feedback if valid input
+    // Only add feedback if valid input.
     if (feedback == "") {
       LOGGER.warning("No input");
       return;

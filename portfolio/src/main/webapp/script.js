@@ -64,16 +64,22 @@ function createListElement(key, text) {
   liElement.id = key;
   liElement.innerText = text + '\t';
 
-  // Create an input element to delete item
+  // Create an input element to delete item.
   var form = document.createElement('form');
   form.setAttribute('method', 'post');
   form.setAttribute('action', '/delete-data');
 
-  // Create hidden element to store id of button
+  // Create hidden element to store id of button.
   var id = document.createElement('input');
   id.setAttribute('type', 'hidden');
   id.setAttribute('name', 'id');
   id.setAttribute('value', key);
+
+  // Create hidden element to store user email.
+  var userEmail = document.createElement('input');
+  userEmail.setAttribute('type', 'hidden');
+  userEmail.setAttribute('name', 'userEmail');
+  userEmail.setAttribute('value', text[1]);
 
   var button = document.createElement('input');
   button.setAttribute('class', 'btn btn-outline-secondary');
@@ -83,6 +89,7 @@ function createListElement(key, text) {
 
   // Create the list element
   form.appendChild(id);
+  form.appendChild(userEmail);
   form.appendChild(button);
   liElement.appendChild(form);
 
@@ -90,7 +97,7 @@ function createListElement(key, text) {
 }
 
 // Check if the user is logged in or not, only display the comment function
-// if they are logged in
+// if they are logged in.
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {

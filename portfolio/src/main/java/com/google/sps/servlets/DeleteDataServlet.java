@@ -16,19 +16,11 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.gson.Gson;
-import java.io.*;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,48 +29,28 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
-  private final static Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
-
-
-  // TO DO: filter based on email and only allow them to delete their own
   /** Delete comment servlet, allow a user to delete their own comments. */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the info about which post to delete
-    String feedback = request.getParameter("text-input");
-    String key = request.getParameter("id");
-    key = key.replaceAll("[^\\d.]", "");
-    System.out.println(key);
+    // Get the id of which comment to delete.
+    Key key = KeyFactory.stringToKey(request.getParameter("id"));
+    String commentUserEmail = request.getParameter("userEmail");
 
-    String remoteAddr = request.getRemoteAddr();
-    Filter identifyUser = new FilterPredicate("remoteAddr", FilterOperator.EQUAL, remoteAddr);
-    // Filter based on key
-    Filter identifyComment = new FilterPredicate("key", FilterOperator.EQUAL, key);
-    // Query query = new Query("Comment").setFilter(identifyUser).addSort("timestamp",
-    // SortDirection.DESCENDING);
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
-    System.out.println("**" + results);
-    // Only add feedback if valid input
-    if (results == null) {
-      LOGGER.warning("User does not own this comment");
-      return;
+    // Get the email of the user currently logged in.
+    UserService userService = UserServiceFactory.getUserService();
+    String currentUserEmail = userService.getCurrentUser().getEmail();
+    
+    // Users can only delete their own comments.
+    if (!commentUserEmail.equals(currentUserEmail)){
+      System.out.println("Cannot delete other user's comments!");
+      response.sendRedirect("/index.html");
     } else {
-      for (Entity commentEntity : results.asIterable()) {
-        // datastore.delete(commentEntity);
-
-        // remote address is returning null -- need to fix then can deletegit
-        String comment = (String) commentEntity.getProperty("comment");
-        System.out.println("Key: " + commentEntity.getKey());
-        System.out.println("Remote addr: " + commentEntity.getProperty("remoteAddr"));
-        System.out.println("COMMENT: " + comment);
-      }
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.delete(key);
       System.out.println("deleted comment");
-    }
 
-    // Redirect back to the HTML page.
-    response.sendRedirect("/index.html");
+      // Redirect back to the HTML page.
+      response.sendRedirect("/index.html");
+    }
   }
 }
