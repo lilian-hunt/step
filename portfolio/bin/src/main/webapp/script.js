@@ -47,7 +47,7 @@ function revealFact() {
  * Fetches comments from the servers and adds them to the DOM.
  */
 function getFeedback() {
-//   fetch('/data').then(response => console.log(response));
+  //   fetch('/data').then(response => console.log(response));
 
 
   fetch('/data').then(response => response.json()).then((comments) => {
@@ -56,7 +56,7 @@ function getFeedback() {
     var comments = comments.comments;
 
     console.log(comments);
-  
+
     // comments = new Map(Object.entries(comments));
     // console.log(typeof comments);
     // console.log(comments.valuesOf());
@@ -76,28 +76,28 @@ function getFeedback() {
 function createListElement(key, text) {
   const liElement = document.createElement('li');
   liElement.id = key;
-  liElement.innerText = text + "\t";
+  liElement.innerText = text + '\t';
 
-  // Create an input element to delete item 
-  var form = document.createElement("form"); 
-  form.setAttribute("method", "post"); 
-  form.setAttribute("action", "/delete-data"); 
+  // Create an input element to delete item
+  var form = document.createElement('form');
+  form.setAttribute('method', 'post');
+  form.setAttribute('action', '/delete-data');
 
-  // Create hidden element to store id of button 
-  var id = document.createElement("input");
-  id.setAttribute("type","hidden");
-  id.setAttribute("name", "id");
-  id.setAttribute("value", key);
-  
-  var button = document.createElement("input"); 
-  button.setAttribute("class", "btn btn-outline-secondary"); 
-  button.setAttribute("type", "submit"); 
-  button.setAttribute("name", key); 
-  button.setAttribute("value", "X");
+  // Create hidden element to store id of button
+  var id = document.createElement('input');
+  id.setAttribute('type', 'hidden');
+  id.setAttribute('name', 'id');
+  id.setAttribute('value', key);
+
+  var button = document.createElement('input');
+  button.setAttribute('class', 'btn btn-outline-secondary');
+  button.setAttribute('type', 'submit');
+  button.setAttribute('name', key);
+  button.setAttribute('value', 'X');
 
   // Create the list element
   form.appendChild(id);
-  form.appendChild(button);  
+  form.appendChild(button);
   liElement.appendChild(form);
 
   return liElement;

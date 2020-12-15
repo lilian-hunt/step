@@ -20,11 +20,14 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.io.*;
-import java.util.*;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,11 +47,13 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    HashMap<String,String> comments = new HashMap<String,String>();
+    HashMap<String, ArrayList<String>> comments = new HashMap<String, ArrayList<String>>();
     for (Entity entity : results.asIterable()) {
-      String comment = (String) entity.getProperty("comment");
-      String id = entity.getKey().toString() ;
-      comments.put(id,comment);
+      String id = entity.getKey().toString();
+      ArrayList<String> commentEmail = new ArrayList<String>();
+      commentEmail.add((String) entity.getProperty("comment"));
+      commentEmail.add((String) entity.getProperty("userEmail"));
+      comments.put(id, commentEmail);
     }
 
     response.setContentType("application/json");
@@ -58,16 +63,13 @@ public class DataServlet extends HttpServlet {
   /*
    * Helper function to store an array in JSON format
    */
-  private String toJSONString(Map<String,String> map, String name) {
+  private String toJSONString(Map<String, ArrayList<String>> map, String name) {
     Gson gson = new Gson();
     if (map != null) {
-      String json = "{ \"" + name + "\" :"
-          +  gson.toJson(map).toString() + "}";
-          // System.out.println(json);
+      String json = "{ \"" + name + "\" :" + gson.toJson(map).toString() + "}";
       return json;
     }
     return null;
-
   }
 
   @Override
@@ -75,7 +77,8 @@ public class DataServlet extends HttpServlet {
     // Get the input from the form.
     String feedback = request.getParameter("text-input");
     long timestamp = System.currentTimeMillis();
-    String remoteAddr = request.getRemoteAddr();
+    UserService userService = UserServiceFactory.getUserService();
+    String userEmail = userService.getCurrentUser().getEmail();
 
     // Only add feedback if valid input
     if (feedback == "") {
@@ -88,7 +91,7 @@ public class DataServlet extends HttpServlet {
 
       commentEntity.setProperty("comment", feedback);
       commentEntity.setProperty("timestamp", timestamp);
-      commentEntity.setProperty("removeAddr", remoteAddr);
+      commentEntity.setProperty("userEmail", userEmail);
 
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       datastore.put(commentEntity);

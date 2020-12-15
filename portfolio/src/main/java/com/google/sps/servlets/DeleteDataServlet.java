@@ -19,13 +19,13 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
-import java.io.IOException;
 import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -41,7 +41,7 @@ public class DeleteDataServlet extends HttpServlet {
 
   // To do: determine if this is the user's comment
   // Allow them to delete their own comments
-  // Need something to identify the comment 
+  // Need something to identify the comment
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the info about which post to delete
@@ -49,12 +49,13 @@ public class DeleteDataServlet extends HttpServlet {
     String key = request.getParameter("id");
     key = key.replaceAll("[^\\d.]", "");
     System.out.println(key);
-    
+
     String remoteAddr = request.getRemoteAddr();
     Filter identifyUser = new FilterPredicate("remoteAddr", FilterOperator.EQUAL, remoteAddr);
     // Filter based on key
     Filter identifyComment = new FilterPredicate("key", FilterOperator.EQUAL, key);
-    // Query query = new Query("Comment").setFilter(identifyUser).addSort("timestamp", SortDirection.DESCENDING);
+    // Query query = new Query("Comment").setFilter(identifyUser).addSort("timestamp",
+    // SortDirection.DESCENDING);
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -67,14 +68,14 @@ public class DeleteDataServlet extends HttpServlet {
     }
 
     else {
-      for (Entity commentEntity: results.asIterable()){
-        // datastore.delete(commentEntity);  
+      for (Entity commentEntity : results.asIterable()) {
+        // datastore.delete(commentEntity);
 
         // remote address is returning null -- need to fix then can deletegit
-        String comment = (String) commentEntity.getProperty("comment"); 
+        String comment = (String) commentEntity.getProperty("comment");
         System.out.println("Key: " + commentEntity.getKey());
         System.out.println("Remote addr: " + commentEntity.getProperty("remoteAddr"));
-        System.out.println("COMMENT: " + comment); 
+        System.out.println("COMMENT: " + comment);
       }
       System.out.println("deleted comment");
     }
