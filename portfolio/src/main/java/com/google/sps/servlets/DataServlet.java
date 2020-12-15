@@ -65,8 +65,14 @@ public class DataServlet extends HttpServlet {
    */
   private String toJSONString(Map<String, ArrayList<String>> map, String name) {
     Gson gson = new Gson();
+<<<<<<< HEAD
     if (map != null) {
       String json = "{ \"" + name + "\" :" + gson.toJson(map).toString() + "}";
+=======
+    if (array != null) {
+      String json = "{ \"" + arrayName + "\" :" + gson.toJson(array).toString() + "}";
+      System.out.println(json);
+>>>>>>> b40569c7d8446f976143a15aa7c60bb4ce131e9c
       return json;
     }
     return null;
