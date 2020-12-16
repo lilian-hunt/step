@@ -26,31 +26,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that allows users to delete their own comments */
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
   /** Delete comment servlet, allow a user to delete their own comments. */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the id of which comment to delete.
+    // Get the key of which comment to delete.
     Key key = KeyFactory.stringToKey(request.getParameter("id"));
     String commentUserEmail = request.getParameter("userEmail");
 
     // Get the email of the user currently logged in.
     UserService userService = UserServiceFactory.getUserService();
-    String currentUserEmail = userService.getCurrentUser().getEmail();
+    String currentUserEmail = null;
+    if (userService.getCurrentUser() != null) {
+      currentUserEmail = userService.getCurrentUser().getEmail();
+    }
 
     // Users can only delete their own comments.
-    if (!commentUserEmail.equals(currentUserEmail)) {
-      System.out.println("Cannot delete other user's comments!");
-      response.sendRedirect("/index.html");
-    } else {
+    if (currentUserEmail == null || !commentUserEmail.equals(currentUserEmail)) {
+      response.getWriter().println("<html><body>");
+      response.getWriter().println("<script type=\"text/javascript\">");
+      response.getWriter().println("alert('You can only delete your own comments');");
+      response.getWriter().println("window.location.href = 'index.html'");
+      response.getWriter().println("</script>");
+      return;
+    } else if (key != null) {
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       datastore.delete(key);
-      System.out.println("deleted comment");
-
-      // Redirect back to the HTML page.
-      response.sendRedirect("/index.html");
     }
+    // Redirect back to the HTML page.
+    response.sendRedirect("/index.html");
   }
 }
