@@ -48,7 +48,6 @@ function getFeedback() {
   fetch('/data').then(response => response.json()).then((comments) => {
     // comments is an object, so reference its fields to create HTML content
     var comments = comments.comments;
-    console.log(comments);
 
     const commentListElement = document.getElementById('comment-container');
     commentListElement.innerHTML = '';
@@ -102,7 +101,6 @@ var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     commentTitle = document.getElementById('comment-header');
-
     if (xhttp.responseText.includes('<p>You are logged in!</p>')) {
       var form = document.createElement('form');
       form.setAttribute('method', 'POST');
@@ -126,22 +124,22 @@ xhttp.onreadystatechange = function() {
       form.appendChild(br);
       form.appendChild(button);
       commentTitle.parentNode.insertBefore(form, commentTitle.nextSibling);
-      console.log('Comments');
     } else {
       var text = document.createElement('p');
       text.innerHTML = 'Please login to comment.';
       commentTitle.append(text);
       commentTitle.parentNode.insertBefore(text, commentTitle.nextSibling);
-      console.log('No comments');
     }
   }
 };
 xhttp.open('GET', '/login', true);
 xhttp.send();
 
-/** Creates a map and adds it to the page. */
-function createMap() {
-  const map = new google.maps.Map(
-      document.getElementById('map'),
-      {center: {lat: 37.422, lng: -122.084}, zoom: 16});
-}
+// Load the API key from file and attach to html.
+fetch('./config.json').then(response => {
+  return response.json(); }).then(data => {
+    var script = document.createElement('script');
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=' +  data.api_key;
+    script.defer = false;
+    document.head.insertBefore(script, document.head.lastChild);
+  });
