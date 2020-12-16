@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that allows users to delete their own comments */
+/** Servlet that allows users to delete their own comments. */
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
   /** Delete comment servlet, allow a user to delete their own comments. */
