@@ -25,10 +25,10 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,12 +48,12 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    Map<String, List<String>> comments = new HashMap<>();
+    Map<String, Map<String, String>> comments = new HashMap<>();
     for (Entity entity : results.asIterable()) {
       String id = KeyFactory.keyToString(entity.getKey());
-      List<String> commentEmail = new ArrayList<>();
-      commentEmail.add((String) entity.getProperty("comment"));
-      commentEmail.add((String) entity.getProperty("userEmail"));
+      Map<String, String> commentEmail = new HashMap<>();
+      commentEmail.put("comment", (String) entity.getProperty("comment"));
+      commentEmail.put("userEmail", (String) entity.getProperty("userEmail"));
       comments.put(id, commentEmail);
     }
 
@@ -64,7 +64,7 @@ public class DataServlet extends HttpServlet {
   /*
    * Helper function to store a map in JSON format.
    */
-  private String toJSONString(Map<String, List<String>> map, String name) {
+  private String toJSONString(Map<String, Map<String, String>> map, String name) {
     Gson gson = new Gson();
     if (map != null) {
       String json = "{ \"" + name + "\" :" + gson.toJson(map).toString() + "}";

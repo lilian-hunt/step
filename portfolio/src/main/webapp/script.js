@@ -48,7 +48,6 @@ function getFeedback() {
   fetch('/data').then(response => response.json()).then((comments) => {
     // comments is an object, so reference its fields to create HTML content
     var comments = comments.comments;
-    console.log(comments);
 
     const commentListElement = document.getElementById('comment-container');
     commentListElement.innerHTML = '';
@@ -62,7 +61,7 @@ function getFeedback() {
 function createListElement(key, text) {
   const liElement = document.createElement('li');
   liElement.id = key;
-  liElement.innerText = text + '\t';
+  liElement.innerText = text.comment + ',' + text.userEmail + '\t';
 
   // Create an input element to delete item.
   var form = document.createElement('form');
@@ -79,7 +78,7 @@ function createListElement(key, text) {
   var userEmail = document.createElement('input');
   userEmail.setAttribute('type', 'hidden');
   userEmail.setAttribute('name', 'userEmail');
-  userEmail.setAttribute('value', text[1]);
+  userEmail.setAttribute('value', text.userEmail);
 
   var button = document.createElement('input');
   button.setAttribute('class', 'btn btn-outline-secondary');
@@ -126,13 +125,11 @@ xhttp.onreadystatechange = function() {
       form.appendChild(br);
       form.appendChild(button);
       commentTitle.parentNode.insertBefore(form, commentTitle.nextSibling);
-      console.log('Comments');
     } else {
       var text = document.createElement('p');
       text.innerHTML = 'Please login to comment.';
       commentTitle.append(text);
       commentTitle.parentNode.insertBefore(text, commentTitle.nextSibling);
-      console.log('No comments');
     }
   }
 };
