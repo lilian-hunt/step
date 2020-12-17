@@ -136,10 +136,14 @@ xhttp.open('GET', '/login', true);
 xhttp.send();
 
 // Load the API key from file and attach to html.
-fetch('./config.json').then(response => {
-  return response.json(); }).then(data => {
-    var script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=' +  data.api_key;
-    script.defer = false;
-    document.head.insertBefore(script, document.head.lastChild);
-  });
+fetch('./config.json')
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      var script = document.createElement('script');
+      script.src =
+          'https://maps.googleapis.com/maps/api/js?key=' + data.api_key;
+      script.defer = false;
+      document.head.insertBefore(script, document.head.lastChild);
+    });

@@ -38,19 +38,19 @@ public class DeleteDataServlet extends HttpServlet {
 
     // Get the email of the user currently logged in.
     UserService userService = UserServiceFactory.getUserService();
-    String currentUserEmail = null; 
-    if (userService.getCurrentUser() != null){
+    String currentUserEmail = null;
+    if (userService.getCurrentUser() != null) {
       currentUserEmail = userService.getCurrentUser().getEmail();
     }
 
     // Users can only delete their own comments.
     if (currentUserEmail == null || !commentUserEmail.equals(currentUserEmail)) {
-        response.getWriter().println("<html><body>");
-        response.getWriter().println("<script type=\"text/javascript\">");  
-        response.getWriter().println("alert('You can only delete your own comments');");  
-        response.getWriter().println("window.location.href = 'index.html'");
-        response.getWriter().println("</script>");
-        return;
+      response.getWriter().println("<html><body>");
+      response.getWriter().println("<script type=\"text/javascript\">");
+      response.getWriter().println("alert('You can only delete your own comments');");
+      response.getWriter().println("window.location.href = 'index.html'");
+      response.getWriter().println("</script>");
+      return;
     } else if (key != null) {
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       datastore.delete(key);
