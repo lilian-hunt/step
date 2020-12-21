@@ -51,7 +51,6 @@ public class DataServlet extends HttpServlet {
     Map<String, Map<String, String>> comments = new HashMap<>();
     for (Entity entity : results.asIterable()) {
       String id = KeyFactory.keyToString(entity.getKey());
-      // Use map to store. 
       Map<String, String> commentEmail = new HashMap<>();
       commentEmail.put("comment", (String) entity.getProperty("comment"));
       commentEmail.put("userEmail", (String) entity.getProperty("userEmail"));
