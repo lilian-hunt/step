@@ -68,7 +68,7 @@ public final class FindMeetingQueryTest {
 
   @Test
   public void noOptionsForTooLongOfARequest() {
-    // The duration should be longer than a day. This means there should be no options.
+    // The duration should not be longer than a day. This means there should be no options.
     int duration = TimeRange.WHOLE_DAY.duration() + 1;
     MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_A), duration);
 

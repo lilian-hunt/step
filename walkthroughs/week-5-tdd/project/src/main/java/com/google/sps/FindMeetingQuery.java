@@ -15,18 +15,34 @@
 package com.google.sps;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
+import java.util.stream.Collectors;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    Collection<String> attendees = request.getAttendees();
     long duration = request.getDuration();
-    List<TimeRange> busyTimes = new ArrayList<>();
-    for (Event event : events) {
-      busyTimes.add(event.getWhen());
+    // The duration should not be longer than 1 day
+    if (duration > TimeRange.getTimeInMinutes(23, 59)) {
+      return Arrays.asList();
     }
+    Collection<String> attendees = request.getAttendees();
+    List<TimeRange> busyTimes = new ArrayList<>();
+
+    // Find the other events the attendees are already scheduled in for.
+    for (Event event : events) {
+      Set<String> intersection = attendees.stream()
+                                     .distinct()
+                                     .filter(event.getAttendees()::contains)
+                                     .collect(Collectors.toSet());
+      if (intersection.size() > 0) {
+        busyTimes.add(event.getWhen());
+      }
+    }
+    
     busyTimes.sort(TimeRange.ORDER_BY_START);
     List<TimeRange> mergedBusyTimes = new ArrayList<>();
     for (TimeRange timeRange : busyTimes) {
@@ -42,11 +58,24 @@ public final class FindMeetingQuery {
         mergedBusyTimes.add(mergedRange);
       }
     }
-    // Find a gap equal to the duration.
+
     List<TimeRange> availableTimes = new ArrayList<>();
+    int initialStart = TimeRange.START_OF_DAY;
+
+    // Find a gap greater than or equal to the duration.
     for (TimeRange timeRange : mergedBusyTimes) {
+      System.out.println(timeRange.start() - initialStart);
+      if (timeRange.start() - initialStart >= duration) {
+        availableTimes.add(TimeRange.fromStartEnd(initialStart, timeRange.start(), false));
+      }
+      initialStart = timeRange.end();
       System.out.println(timeRange.toString());
     }
-    // throw new UnsupportedOperationException("TODO: Implement this method.");
+
+    // Check if the event can be scheduled at the end of the day.
+    if (TimeRange.END_OF_DAY - initialStart >= duration) {
+      availableTimes.add(TimeRange.fromStartEnd(initialStart, TimeRange.END_OF_DAY, true));
+    }
+    return availableTimes;
   }
 }
