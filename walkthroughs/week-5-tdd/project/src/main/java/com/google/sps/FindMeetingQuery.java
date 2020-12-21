@@ -42,7 +42,7 @@ public final class FindMeetingQuery {
         busyTimes.add(event.getWhen());
       }
     }
-    
+
     busyTimes.sort(TimeRange.ORDER_BY_START);
     List<TimeRange> mergedBusyTimes = new ArrayList<>();
     for (TimeRange timeRange : busyTimes) {
