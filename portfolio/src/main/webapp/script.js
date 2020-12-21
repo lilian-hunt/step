@@ -61,7 +61,7 @@ function getFeedback() {
 function createListElement(key, text) {
   const liElement = document.createElement('li');
   liElement.id = key;
-  liElement.innerText = text + '\t';
+  liElement.innerText = text.comment + ',' + text.userEmail + '\t';
 
   // Create an input element to delete item.
   var form = document.createElement('form');
@@ -78,7 +78,7 @@ function createListElement(key, text) {
   var userEmail = document.createElement('input');
   userEmail.setAttribute('type', 'hidden');
   userEmail.setAttribute('name', 'userEmail');
-  userEmail.setAttribute('value', text[1]);
+  userEmail.setAttribute('value', text.userEmail);
 
   var button = document.createElement('input');
   button.setAttribute('class', 'btn btn-outline-secondary');
