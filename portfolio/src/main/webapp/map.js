@@ -44,7 +44,7 @@ function addMarkers(map) {
 
 /** Toggle night mode and day mode of map. */
 function toggleMapType() {
-  button = document.getElementById('toggle-map');
+  const button = document.getElementById('toggle-map');
   if (button.innerText == 'Night Mode') {
     nightMode();
     button.innerText = 'Day Mode';

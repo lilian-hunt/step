@@ -47,7 +47,7 @@ function revealFact() {
 function getFeedback() {
   fetch('/data').then(response => response.json()).then((comments) => {
     // comments is an object, so reference its fields to create HTML content
-    var comments = comments.comments;
+    const comments = comments.comments;
 
     const commentListElement = document.getElementById('comment-container');
     commentListElement.innerHTML = '';
@@ -64,23 +64,23 @@ function createListElement(key, text) {
   liElement.innerText = text.comment + ',' + text.userEmail + '\t';
 
   // Create an input element to delete item.
-  var form = document.createElement('form');
+  const form = document.createElement('form');
   form.setAttribute('method', 'post');
   form.setAttribute('action', '/delete-data');
 
   // Create hidden element to store id of button.
-  var id = document.createElement('input');
+  const id = document.createElement('input');
   id.setAttribute('type', 'hidden');
   id.setAttribute('name', 'id');
   id.setAttribute('value', key);
 
   // Create hidden element to store user email.
-  var userEmail = document.createElement('input');
+  const userEmail = document.createElement('input');
   userEmail.setAttribute('type', 'hidden');
   userEmail.setAttribute('name', 'userEmail');
   userEmail.setAttribute('value', text.userEmail);
 
-  var button = document.createElement('input');
+  const button = document.createElement('input');
   button.setAttribute('class', 'btn btn-outline-secondary');
   button.setAttribute('type', 'submit');
   button.setAttribute('name', key);
@@ -97,25 +97,25 @@ function createListElement(key, text) {
 
 // Check if the user is logged in or not, only display the comment function
 // if they are logged in.
-var xhttp = new XMLHttpRequest();
+const xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     commentTitle = document.getElementById('comment-header');
     if (xhttp.responseText.includes('<p>You are logged in!</p>')) {
-      var form = document.createElement('form');
+      const form = document.createElement('form');
       form.setAttribute('method', 'POST');
       form.setAttribute('action', '/data');
 
-      var text = document.createElement('p');
+      const text = document.createElement('p');
       text.innerText = 'Enter your feedback here:';
 
-      var textArea = document.createElement('textarea');
+      const textArea = document.createElement('textarea');
       textArea.name = 'text-input';
       textArea.required = '';
 
-      var br = document.createElement('br');
+      const br = document.createElement('br');
 
-      var button = document.createElement('input');
+      const button = document.createElement('input');
       button.setAttribute('class', 'btn btn-outline-secondary');
       button.setAttribute('type', 'submit');
 
@@ -125,7 +125,7 @@ xhttp.onreadystatechange = function() {
       form.appendChild(button);
       commentTitle.parentNode.insertBefore(form, commentTitle.nextSibling);
     } else {
-      var text = document.createElement('p');
+      const text = document.createElement('p');
       text.innerHTML = 'Please login to comment.';
       commentTitle.append(text);
       commentTitle.parentNode.insertBefore(text, commentTitle.nextSibling);
@@ -141,11 +141,11 @@ fetch('./config.json')
       return response.json();
     })
     .then(data => {
-      var script = document.createElement('script');
+      const script = document.createElement('script');
       script.src =
           'https://maps.googleapis.com/maps/api/js?key=' + data.api_key;
       document.head.appendChild(script);
-      var mapScript = document.createElement('script');
+      const mapScript = document.createElement('script');
       mapScript.src = 'map.js'
       document.head.appendChild(mapScript);
     });
