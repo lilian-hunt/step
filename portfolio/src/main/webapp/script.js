@@ -47,11 +47,11 @@ function revealFact() {
 function getFeedback() {
   fetch('/data').then(response => response.json()).then((comments) => {
     // comments is an object, so reference its fields to create HTML content
-    const comments = comments.comments;
+    const commentsEntries = comments.comments;
 
     const commentListElement = document.getElementById('comment-container');
     commentListElement.innerHTML = '';
-    for (const [key, value] of Object.entries(comments)) {
+    for (const [key, value] of Object.entries(commentsEntries)) {
       commentListElement.appendChild(createListElement(key, value));
     }
   });
@@ -68,11 +68,12 @@ function createListElement(key, text) {
   form.setAttribute('method', 'post');
   form.setAttribute('action', '/delete-data');
 
-  // Create hidden element to store id of button.
-  const id = document.createElement('input');
-  id.setAttribute('type', 'hidden');
-  id.setAttribute('name', 'id');
-  id.setAttribute('value', key);
+  // Create hidden element to store comment id (unique key used to 
+  // identify the commment in the database) and link it to the button.
+  const comment_id = document.createElement('input');
+  comment_id.setAttribute('type', 'hidden');
+  comment_id.setAttribute('name', 'comment_id');
+  comment_id.setAttribute('value', key);
 
   // Create hidden element to store user email.
   const userEmail = document.createElement('input');
@@ -87,7 +88,7 @@ function createListElement(key, text) {
   button.setAttribute('value', 'X');
 
   // Create the list element
-  form.appendChild(id);
+  form.appendChild(comment_id);
   form.appendChild(userEmail);
   form.appendChild(button);
   liElement.appendChild(form);
