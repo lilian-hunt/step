@@ -24,14 +24,30 @@ import java.util.stream.Collectors;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    long duration = request.getDuration();
     // The duration should not be longer than 1 day.
-    if (duration > TimeRange.getTimeInMinutes(23, 59)) {
+    if (request.getDuration() > TimeRange.getTimeInMinutes(23, 59)) {
       return Arrays.asList();
     }
-    Collection<String> attendees = request.getAttendees();
-    List<TimeRange> busyTimes = new ArrayList<>();
 
+    // Try to find a time that works for all attendees including the optional ones.
+    // Otherwise just return the times available for the mandatory attendees.
+    List<String> allAttendees = new ArrayList<>();
+    allAttendees.addAll(request.getAttendees());
+    allAttendees.addAll(request.getOptionalAttendees());
+    Collection<TimeRange> optionsConsideringAllAttendees =
+        findAvailableTimes(events, request, allAttendees);
+    if (optionsConsideringAllAttendees.size() > 0) {
+      return optionsConsideringAllAttendees;
+    } else {
+      return findAvailableTimes(events, request, request.getAttendees());
+    }
+  }
+
+  // Private helper function to find the available times given specified attendees.
+  private Collection<TimeRange> findAvailableTimes(
+      Collection<Event> events, MeetingRequest request, Collection<String> attendees) {
+    List<TimeRange> busyTimes = new ArrayList<>();
+    long duration = request.getDuration();
     // Find the other events the attendees are already scheduled in for.
     for (Event event : events) {
       if (attendees.stream().anyMatch(x -> event.getAttendees().contains(x))) {
