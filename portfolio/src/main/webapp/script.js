@@ -144,6 +144,8 @@ fetch('./config.json')
       var script = document.createElement('script');
       script.src =
           'https://maps.googleapis.com/maps/api/js?key=' + data.api_key;
-      script.defer = false;
-      document.head.insertBefore(script, document.head.lastChild);
+      document.head.appendChild(script);
+      var mapScript = document.createElement('script');
+      mapScript.src = 'map.js'
+      document.head.appendChild(mapScript);
     });
