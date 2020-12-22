@@ -22,7 +22,7 @@ function revealFact() {
       'I went viral on TikTok for ski dance videos.', 'I love baking.',
       'My favourite chocolate is Caramilk.', 'I play water polo.',
       'I went to Stanford University on exchange.',
-      'I have worked at Deloitte.', 'I have worked at Macqaurie bank.'
+      'I have worked at Deloitte.', 'I have worked at Macqaurie bank.',
     ];
 
     // Pick a random one.

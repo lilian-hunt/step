@@ -1,10 +1,10 @@
 const jacksonHole = {
   lat: 43.582767,
-  lng: -110.821999
+  lng: -110.821999,
 };
 const LA = {
   lat: 34.052235,
-  lng: -118.243683
+  lng: -118.243683,
 };
 
 const jacksonHoleContentString =
