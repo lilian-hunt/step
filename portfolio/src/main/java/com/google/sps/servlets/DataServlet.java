@@ -94,10 +94,6 @@ public class DataServlet extends HttpServlet {
     String userEmail = userService.getCurrentUser().getEmail();
 
     // Only add feedback if valid input.
-    if (feedback == "") {
-      LOGGER.warning("No input");
-      return;
-    } else {
     if (feedback != "" || imageUrl != null) {
       Entity commentEntity = new Entity("Comment");
 
