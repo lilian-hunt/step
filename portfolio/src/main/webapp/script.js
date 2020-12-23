@@ -51,6 +51,7 @@ function getFeedback() {
 
     const commentListElement = document.getElementById('comment-container');
     commentListElement.innerHTML = '';
+    console.log(comments);
     for (const [key, value] of Object.entries(comments)) {
       commentListElement.appendChild(createListElement(key, value));
     }
@@ -61,7 +62,7 @@ function getFeedback() {
 function createListElement(key, text) {
   const liElement = document.createElement('li');
   liElement.id = key;
-  liElement.innerText = text.comment + ',' + text.userEmail + '\t';
+  liElement.innerText = text.commentText + ',' + text.userEmail + '\t';
 
   // Create an input element to delete item.
   var form = document.createElement('form');

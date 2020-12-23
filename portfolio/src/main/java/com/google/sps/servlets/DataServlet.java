@@ -62,7 +62,7 @@ public class DataServlet extends HttpServlet {
     for (Entity entity : results.asIterable()) {
       String id = KeyFactory.keyToString(entity.getKey());
       Map<String, String> commentAttributes = new HashMap<>();
-      commentAttributes.put("comment", (String) entity.getProperty("comment"));
+      commentAttributes.put("commentText", (String) entity.getProperty("commentText"));
       commentAttributes.put("userEmail", (String) entity.getProperty("userEmail"));
       commentAttributes.put("imageUrl", (String) entity.getProperty("imageUrl"));
       comments.put(id, commentAttributes);
@@ -97,7 +97,7 @@ public class DataServlet extends HttpServlet {
     if (feedback != "" || imageUrl != null) {
       Entity commentEntity = new Entity("Comment");
 
-      commentEntity.setProperty("comment", feedback);
+      commentEntity.setProperty("commentText", feedback);
       commentEntity.setProperty("timestamp", timestamp);
       commentEntity.setProperty("userEmail", userEmail);
 
@@ -139,6 +139,7 @@ public class DataServlet extends HttpServlet {
 
     // Use the relative path to the image.
     try {
+      //Get the URL that can dynamically serve the image stored as a blob.
       URL url = new URL(imagesService.getServingUrl(options));
       return url.getPath();
     } catch (MalformedURLException e) {
