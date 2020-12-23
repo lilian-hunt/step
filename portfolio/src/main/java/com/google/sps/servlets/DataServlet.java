@@ -51,10 +51,11 @@ public class DataServlet extends HttpServlet {
     Map<String, Map<String, String>> comments = new HashMap<>();
     for (Entity entity : results.asIterable()) {
       String id = KeyFactory.keyToString(entity.getKey());
-      Map<String, String> commentEmail = new HashMap<>();
-      commentEmail.put("comment", (String) entity.getProperty("comment"));
-      commentEmail.put("userEmail", (String) entity.getProperty("userEmail"));
-      comments.put(id, commentEmail);
+      Map<String, String> commentAttributes = new HashMap<>();
+      commentAttributes.put("comment", (String) entity.getProperty("comment"));
+      commentAttributes.put("userEmail", (String) entity.getProperty("userEmail"));
+      commentAttributes.put("imageUrl", (String) entity.getProperty("imageUrl"));
+      comments.put(id, commentAttributes);
     }
 
     response.setContentType("application/json");
@@ -71,30 +72,5 @@ public class DataServlet extends HttpServlet {
       return json;
     }
     return null;
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
-    String feedback = request.getParameter("text-input");
-    long timestamp = System.currentTimeMillis();
-    String userEmail = userService.getCurrentUser().getEmail();
-
-    // Only add feedback if valid input.
-    if (feedback == "") {
-      LOGGER.warning("No input");
-      return;
-    } else {
-      Entity commentEntity = new Entity("Comment");
-
-      commentEntity.setProperty("comment", feedback);
-      commentEntity.setProperty("timestamp", timestamp);
-      commentEntity.setProperty("userEmail", userEmail);
-
-      datastore.put(commentEntity);
-    }
-
-    // Redirect back to the HTML page.
-    response.sendRedirect("/index.html");
   }
 }
