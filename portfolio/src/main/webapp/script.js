@@ -63,6 +63,12 @@ function createListElement(key, text) {
   liElement.id = key;
   liElement.innerText = text.comment + ',' + text.userEmail + '\t';
 
+  if (text.imageUrl != 'null') {
+    const img = document.createElement('img');
+    img.src = text.imageUrl;
+    liElement.appendChild(img);
+  }
+
   // Create an input element to delete item.
   var form = document.createElement('form');
   form.setAttribute('method', 'post');
@@ -104,16 +110,27 @@ xhttp.onreadystatechange = function() {
     if (xhttp.responseText.includes('<p>You are logged in!</p>')) {
       var form = document.createElement('form');
       form.setAttribute('method', 'POST');
-      form.setAttribute('action', '/data');
+      form.setAttribute('id', 'comment-form');
+      form.setAttribute('class', 'hidden');
+      form.setAttribute('enctype', 'multipart/form-data');
 
       var text = document.createElement('p');
       text.innerText = 'Enter your feedback here:';
 
       var textArea = document.createElement('textarea');
       textArea.name = 'text-input';
-      textArea.required = '';
+      textArea.required = true;
 
-      var br = document.createElement('br');
+      const imgText = document.createElement('p');
+      imgText.innerText = 'Upload an image:';
+
+      const imgInput = document.createElement('input');
+      imgInput.type = 'file';
+      imgInput.name = 'image';
+      imgInput.setAttribute('class', 'btn btn-outline-secondary');
+
+      const breakElement1 = document.createElement('br');
+      const breakElement2 = document.createElement('br');
 
       var button = document.createElement('input');
       button.setAttribute('class', 'btn btn-outline-secondary');
@@ -121,7 +138,10 @@ xhttp.onreadystatechange = function() {
 
       form.appendChild(text);
       form.appendChild(textArea);
-      form.appendChild(br);
+      form.appendChild(imgText);
+      form.appendChild(imgInput);
+      form.appendChild(breakElement1);
+      form.appendChild(breakElement2);
       form.appendChild(button);
       commentTitle.parentNode.insertBefore(form, commentTitle.nextSibling);
     } else {
@@ -147,3 +167,18 @@ fetch('./config.json')
       script.defer = false;
       document.head.insertBefore(script, document.head.lastChild);
     });
+
+
+/**  Make a GET request to /blobstore-upload-url. */
+function fetchBlobstoreUrlAndShowForm() {
+  console.log('CALLED');
+  fetch('/blobstore-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('comment-form');
+        messageForm.action = imageUploadUrl;
+        messageForm.classList.remove('hidden');
+      });
+}
