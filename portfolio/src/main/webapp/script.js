@@ -51,7 +51,6 @@ function getFeedback() {
 
     const commentListElement = document.getElementById('comment-container');
     commentListElement.innerHTML = '';
-    console.log(comments);
     for (const [key, value] of Object.entries(comments)) {
       commentListElement.appendChild(createListElement(key, value));
     }
