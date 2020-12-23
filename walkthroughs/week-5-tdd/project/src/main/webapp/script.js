@@ -24,14 +24,16 @@ function sendMeetingRequest() {
   // split it into an array of names
   const attendees = attendeesNamesString.split(/\s*,\s*/);
 
-// comma-separated list of names
-  const optionalAttendeesNamesString = document.getElementById('optional-attendees').value;
+  // comma-separated list of names
+  const optionalAttendeesNamesString =
+      document.getElementById('optional-attendees').value;
   // split it into an array of names
   const optionalAttendees = optionalAttendeesNamesString.split(/\s*,\s*/);
 
   // Create the request to send to the server using the data we collected from
   // the web form.
-  const meetingRequest = new MeetingRequest(duration, attendees, optionalAttendees);
+  const meetingRequest =
+      new MeetingRequest(duration, attendees, optionalAttendees);
 
   queryServer(meetingRequest).then((timeRanges) => {
     updateResultsOnPage(timeRanges);

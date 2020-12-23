@@ -14,23 +14,27 @@
 
 package com.google.sps.servlets;
 
-import com.google.gson.Gson;
-import com.google.sps.Events;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/get-events")
-public class GetEventsServlet extends HttpServlet {
+/**
+ * When the fetch() function requests the /blobstore-upload-url URL, the content of the response is
+ * the URL that allows a user to upload a file to Blobstore. 
+ * TODO: Add unit tests.
+ */
+@WebServlet("/blobstore-upload-url")
+public class BlobstoreUploadUrlServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Gson gson = new Gson();
-    String jsonResponse = gson.toJson(Events.events);
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    String uploadUrl = blobstoreService.createUploadUrl("/data");
 
-    // Send the JSON back as the response
-    response.setContentType("application/json");
-    response.getWriter().println(jsonResponse);
+    response.setContentType("text/html");
+    response.getWriter().println(uploadUrl);
   }
 }
