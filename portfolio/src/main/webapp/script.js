@@ -107,22 +107,22 @@ xhttp.onreadystatechange = function() {
       form.setAttribute('method', 'POST');
       form.setAttribute('action', '/data');
 
-      const text = document.createElement('p');
-      text.innerText = 'Enter your feedback here:';
+      const feedbackPrompt = document.createElement('p');
+      feedbackPrompt.innerText = 'Enter your feedback here:';
 
       const textArea = document.createElement('textarea');
       textArea.name = 'text-input';
       textArea.required = '';
 
-      const br = document.createElement('br');
+      const breakElement = document.createElement('br');
 
       const button = document.createElement('input');
       button.setAttribute('class', 'btn btn-outline-secondary');
       button.setAttribute('type', 'submit');
 
-      form.appendChild(text);
+      form.appendChild(feedbackPrompt);
       form.appendChild(textArea);
-      form.appendChild(br);
+      form.appendChild(breakElement);
       form.appendChild(button);
       commentTitle.parentNode.insertBefore(form, commentTitle.nextSibling);
     } else {
