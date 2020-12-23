@@ -96,7 +96,6 @@ public class DataServlet extends HttpServlet {
     // Only add feedback if valid input.
     if (feedback != "" || imageUrl != null) {
       Entity commentEntity = new Entity("Comment");
-
       commentEntity.setProperty("comment", feedback);
       commentEntity.setProperty("timestamp", timestamp);
       commentEntity.setProperty("userEmail", userEmail);
@@ -112,6 +111,7 @@ public class DataServlet extends HttpServlet {
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");
   }
+
   /** Returns a URL that points to the uploaded file, or null if the user didn't upload a file. */
   private String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
