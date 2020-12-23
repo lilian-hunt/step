@@ -63,8 +63,8 @@ function createListElement(key, text) {
   const liElement = document.createElement('li');
   liElement.id = key;
   liElement.innerText = text.comment + ',' + text.userEmail + '\t';
-  
-  if (text.imageUrl != "null") { 
+
+  if (text.imageUrl != 'null') {
     const img = document.createElement('img');
     img.src = text.imageUrl;
     liElement.appendChild(img);
@@ -113,7 +113,7 @@ xhttp.onreadystatechange = function() {
       form.setAttribute('method', 'POST');
       form.setAttribute('id', 'comment-form');
       form.setAttribute('class', 'hidden');
-      form.setAttribute('enctype','multipart/form-data');
+      form.setAttribute('enctype', 'multipart/form-data');
 
       var text = document.createElement('p');
       text.innerText = 'Enter your feedback here:';
@@ -172,7 +172,7 @@ fetch('./config.json')
 
 /**  Make a GET request to /blobstore-upload-url. */
 function fetchBlobstoreUrlAndShowForm() {
-  console.log("CALLED");
+  console.log('CALLED');
   fetch('/blobstore-upload-url')
       .then((response) => {
         return response.text();

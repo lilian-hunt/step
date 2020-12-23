@@ -22,11 +22,11 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
@@ -65,18 +65,17 @@ public class FormHandlerServlet extends HttpServlet {
       commentEntity.setProperty("comment", feedback);
       commentEntity.setProperty("timestamp", timestamp);
       commentEntity.setProperty("userEmail", userEmail);
-      if (imageUrl != null){
+      if (imageUrl != null) {
         commentEntity.setProperty("imageUrl", imageUrl);
       } else {
         commentEntity.setProperty("imageUrl", "null");
       }
-  
+
       datastore.put(commentEntity);
     }
 
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");
-
   }
 
   /** Returns a URL that points to the uploaded file, or null if the user didn't upload a file. */
