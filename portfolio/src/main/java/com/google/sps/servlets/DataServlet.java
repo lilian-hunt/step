@@ -101,15 +101,14 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("timestamp", timestamp);
     commentEntity.setProperty("userEmail", userEmail);
     if (imageUrl != null) {
-        commentEntity.setProperty("imageUrl", imageUrl);
+      commentEntity.setProperty("imageUrl", imageUrl);
     }
     datastore.put(commentEntity);
-    
 
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");
   }
-  
+
   /** Returns a URL that points to the uploaded file, or null if the user didn't upload a file. */
   private String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
