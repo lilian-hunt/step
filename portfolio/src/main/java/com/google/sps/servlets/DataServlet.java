@@ -52,6 +52,7 @@ public class DataServlet extends HttpServlet {
   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
   private UserService userService = UserServiceFactory.getUserService();
 
+  // To do: Add unit tests
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get all the comments from the database.
