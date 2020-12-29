@@ -58,11 +58,16 @@ function getFeedback() {
 }
 
 /** Creates an <li> element containing text. */
-function createListElement(key, text) {
+function createListElement(key, comment) {
   const liElement = document.createElement('li');
   liElement.id = key;
-  liElement.innerText = text.commentText + ',' + text.userEmail + '\t';
+  liElement.innerText = comment.commentText + ',' + comment.userEmail + '\t';
 
+   if ('imageUrl' in comment) {
+    const img = document.createElement('img');
+    img.src = comment.imageUrl;
+    liElement.appendChild(img);
+  }
   // Create an input element to delete item.
   const form = document.createElement('form');
   form.setAttribute('method', 'post');
@@ -79,7 +84,7 @@ function createListElement(key, text) {
   const userEmail = document.createElement('input');
   userEmail.setAttribute('type', 'hidden');
   userEmail.setAttribute('name', 'userEmail');
-  userEmail.setAttribute('value', text.userEmail);
+  userEmail.setAttribute('value', comment.userEmail);
 
   const button = document.createElement('input');
   button.setAttribute('class', 'btn btn-outline-secondary');
@@ -106,7 +111,9 @@ xhttp.onreadystatechange = function() {
     if (xhttp.responseText.includes('<p>You are logged in!</p>')) {
       const form = document.createElement('form');
       form.setAttribute('method', 'POST');
-      form.setAttribute('action', '/data');
+      form.setAttribute('id', 'comment-form');
+      form.setAttribute('class', 'hidden');
+      form.setAttribute('enctype', 'multipart/form-data');
 
       const feedbackPrompt = document.createElement('p');
       feedbackPrompt.innerText = 'Enter your feedback here:';
@@ -115,7 +122,16 @@ xhttp.onreadystatechange = function() {
       textArea.name = 'text-input';
       textArea.required = true;
 
+      const imgText = document.createElement('p');
+      imgText.innerText = 'Upload an image:';
+
+      const imgInput = document.createElement('input');
+      imgInput.type = 'file';
+      imgInput.name = 'image';
+      imgInput.setAttribute('class', 'btn btn-outline-secondary');
+
       const breakElement = document.createElement('br');
+      const breakElement2 = document.createElement('br');
 
       const button = document.createElement('input');
       button.setAttribute('class', 'btn btn-outline-secondary');
@@ -123,7 +139,10 @@ xhttp.onreadystatechange = function() {
 
       form.appendChild(feedbackPrompt);
       form.appendChild(textArea);
+      form.appendChild(imgText);
+      form.appendChild(imgInput);
       form.appendChild(breakElement);
+      form.appendChild(breakElement2);
       form.appendChild(button);
       commentTitle.parentNode.insertBefore(form, commentTitle.nextSibling);
 
@@ -155,3 +174,16 @@ fetch('./config.json')
       mapScript.src = 'map.js'
       document.head.appendChild(mapScript);
     });
+
+/**  Make a GET request to /blobstore-upload-url. */
+function fetchBlobstoreUrlAndShowForm() {
+  fetch('/blobstore-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('comment-form');
+        messageForm.action = imageUploadUrl;
+        messageForm.classList.remove('hidden');
+      });
+}
