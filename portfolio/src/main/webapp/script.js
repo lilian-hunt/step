@@ -60,7 +60,7 @@ function getFeedback() {
   });
 }
 
-/** Creates an <li> element containing text. */
+/** Creates an <li> element containing a comment. */
 function createListElement(key, comment) {
   const liElement = document.createElement('li');
   liElement.id = key;
