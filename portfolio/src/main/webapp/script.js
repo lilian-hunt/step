@@ -22,7 +22,7 @@ function revealFact() {
       'I went viral on TikTok for ski dance videos.', 'I love baking.',
       'My favourite chocolate is Caramilk.', 'I play water polo.',
       'I went to Stanford University on exchange.',
-      'I have worked at Deloitte.', 'I have worked at Macqaurie bank.'
+      'I have worked at Deloitte.', 'I have worked at Macqaurie bank.',
     ];
 
     // Pick a random one.
@@ -47,11 +47,11 @@ function revealFact() {
 function getFeedback() {
   fetch('/data').then(response => response.json()).then((comments) => {
     // comments is an object, so reference its fields to create HTML content
-    var comments = comments.comments;
+    const commentsEntries = comments.comments;
 
     const commentListElement = document.getElementById('comment-container');
     commentListElement.innerHTML = '';
-    for (const [key, value] of Object.entries(comments)) {
+    for (const [key, value] of Object.entries(commentsEntries)) {
       commentListElement.appendChild(createListElement(key, value));
     }
   });
@@ -63,37 +63,32 @@ function createListElement(key, text) {
   liElement.id = key;
   liElement.innerText = text.commentText + ',' + text.userEmail + '\t';
 
-  if (text.imageUrl != 'null') {
-    const img = document.createElement('img');
-    img.src = text.imageUrl;
-    liElement.appendChild(img);
-  }
-
   // Create an input element to delete item.
-  var form = document.createElement('form');
+  const form = document.createElement('form');
   form.setAttribute('method', 'post');
   form.setAttribute('action', '/delete-data');
 
-  // Create hidden element to store id of button.
-  var id = document.createElement('input');
-  id.setAttribute('type', 'hidden');
-  id.setAttribute('name', 'id');
-  id.setAttribute('value', key);
+  // Create hidden element to store comment id (unique key used to 
+  // identify the commment in the database) and link it to the button.
+  const comment_id = document.createElement('input');
+  comment_id.setAttribute('type', 'hidden');
+  comment_id.setAttribute('name', 'comment_id');
+  comment_id.setAttribute('value', key);
 
   // Create hidden element to store user email.
-  var userEmail = document.createElement('input');
+  const userEmail = document.createElement('input');
   userEmail.setAttribute('type', 'hidden');
   userEmail.setAttribute('name', 'userEmail');
   userEmail.setAttribute('value', text.userEmail);
 
-  var button = document.createElement('input');
+  const button = document.createElement('input');
   button.setAttribute('class', 'btn btn-outline-secondary');
   button.setAttribute('type', 'submit');
   button.setAttribute('name', key);
   button.setAttribute('value', 'X');
 
   // Create the list element
-  form.appendChild(id);
+  form.appendChild(comment_id);
   form.appendChild(userEmail);
   form.appendChild(button);
   liElement.appendChild(form);
@@ -103,52 +98,43 @@ function createListElement(key, text) {
 
 // Check if the user is logged in or not, only display the comment function
 // if they are logged in.
-var xhttp = new XMLHttpRequest();
+const xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
-    commentTitle = document.getElementById('comment-header');
+    const commentTitle = document.getElementById('comment-header');
+    const loginButton = document.getElementById("login-button");
     if (xhttp.responseText.includes('<p>You are logged in!</p>')) {
-      var form = document.createElement('form');
+      const form = document.createElement('form');
       form.setAttribute('method', 'POST');
-      form.setAttribute('id', 'comment-form');
-      form.setAttribute('class', 'hidden');
-      form.setAttribute('enctype', 'multipart/form-data');
+      form.setAttribute('action', '/data');
 
-      var text = document.createElement('p');
-      text.innerText = 'Enter your feedback here:';
+      const feedbackPrompt = document.createElement('p');
+      feedbackPrompt.innerText = 'Enter your feedback here:';
 
-      var textArea = document.createElement('textarea');
+      const textArea = document.createElement('textarea');
       textArea.name = 'text-input';
-      textArea.required = true;
+      textArea.required = '';
 
-      const imgText = document.createElement('p');
-      imgText.innerText = 'Upload an image:';
+      const breakElement = document.createElement('br');
 
-      const imgInput = document.createElement('input');
-      imgInput.type = 'file';
-      imgInput.name = 'image';
-      imgInput.setAttribute('class', 'btn btn-outline-secondary');
-
-      const br = document.createElement('br');
-      const br2 = document.createElement('br');
-
-      var button = document.createElement('input');
+      const button = document.createElement('input');
       button.setAttribute('class', 'btn btn-outline-secondary');
       button.setAttribute('type', 'submit');
 
-      form.appendChild(text);
+      form.appendChild(feedbackPrompt);
       form.appendChild(textArea);
-      form.appendChild(imgText);
-      form.appendChild(imgInput);
-      form.appendChild(br);
-      form.appendChild(br2);
+      form.appendChild(breakElement);
       form.appendChild(button);
       commentTitle.parentNode.insertBefore(form, commentTitle.nextSibling);
+
+      loginButton.value = "Logout";
     } else {
-      var text = document.createElement('p');
+      const text = document.createElement('p');
       text.innerHTML = 'Please login to comment.';
       commentTitle.append(text);
       commentTitle.parentNode.insertBefore(text, commentTitle.nextSibling);
+
+      loginButton.value = "Login";
     }
   }
 };
@@ -161,24 +147,11 @@ fetch('./config.json')
       return response.json();
     })
     .then(data => {
-      var script = document.createElement('script');
+      const script = document.createElement('script');
       script.src =
           'https://maps.googleapis.com/maps/api/js?key=' + data.api_key;
-      script.defer = false;
-      document.head.insertBefore(script, document.head.lastChild);
+      document.head.appendChild(script);
+      const mapScript = document.createElement('script');
+      mapScript.src = 'map.js'
+      document.head.appendChild(mapScript);
     });
-
-
-/**  Make a GET request to /blobstore-upload-url. */
-function fetchBlobstoreUrlAndShowForm() {
-  console.log('CALLED');
-  fetch('/blobstore-upload-url')
-      .then((response) => {
-        return response.text();
-      })
-      .then((imageUploadUrl) => {
-        const messageForm = document.getElementById('comment-form');
-        messageForm.action = imageUploadUrl;
-        messageForm.classList.remove('hidden');
-      });
-}
