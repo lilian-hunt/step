@@ -33,7 +33,7 @@ public class DeleteDataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the key of which comment to delete.
-    Key key = KeyFactory.stringToKey(request.getParameter("id"));
+    Key key = KeyFactory.stringToKey(request.getParameter("comment_id"));
     String commentUserEmail = request.getParameter("userEmail");
 
     // Get the email of the user currently logged in.
