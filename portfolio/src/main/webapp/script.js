@@ -113,7 +113,7 @@ xhttp.onreadystatechange = function() {
 
       const textArea = document.createElement('textarea');
       textArea.name = 'text-input';
-      textArea.required = '';
+      textArea.required = true;
 
       const breakElement = document.createElement('br');
 
