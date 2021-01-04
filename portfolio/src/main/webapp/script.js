@@ -19,10 +19,13 @@ function revealFact() {
   // Helper function to get a random fact.
   function getFact() {
     const facts = [
-      'I went viral on TikTok for ski dance videos.', 'I love baking.',
-      'My favourite chocolate is Caramilk.', 'I play water polo.',
+      'I went viral on TikTok for ski dance videos.',
+      'I love baking.',
+      'My favourite chocolate is Caramilk.',
+      'I play water polo.',
       'I went to Stanford University on exchange.',
-      'I have worked at Deloitte.', 'I have worked at Macqaurie bank.',
+      'I have worked at Deloitte.',
+      'I have worked at Macqaurie bank.',
     ];
 
     // Pick a random one.
@@ -68,7 +71,7 @@ function createListElement(key, text) {
   form.setAttribute('method', 'post');
   form.setAttribute('action', '/delete-data');
 
-  // Create hidden element to store comment id (unique key used to 
+  // Create hidden element to store comment id (unique key used to
   // identify the commment in the database) and link it to the button.
   const comment_id = document.createElement('input');
   comment_id.setAttribute('type', 'hidden');
@@ -102,7 +105,7 @@ const xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     const commentTitle = document.getElementById('comment-header');
-    const loginButton = document.getElementById("login-button");
+    const loginButton = document.getElementById('login-button');
     if (xhttp.responseText.includes('<p>You are logged in!</p>')) {
       const form = document.createElement('form');
       form.setAttribute('method', 'POST');
@@ -127,14 +130,14 @@ xhttp.onreadystatechange = function() {
       form.appendChild(button);
       commentTitle.parentNode.insertBefore(form, commentTitle.nextSibling);
 
-      loginButton.value = "Logout";
+      loginButton.value = 'Logout';
     } else {
       const text = document.createElement('p');
       text.innerHTML = 'Please login to comment.';
       commentTitle.append(text);
       commentTitle.parentNode.insertBefore(text, commentTitle.nextSibling);
 
-      loginButton.value = "Login";
+      loginButton.value = 'Login';
     }
   }
 };
